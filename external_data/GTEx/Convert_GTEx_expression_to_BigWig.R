@@ -38,6 +38,11 @@ tile.size=50
 if (file.exists(out.bigwig))
     stop(paste('output file', out.bigwig, 'already exists, please delete it first'))
 
+tissue.with.spaces <- tissue
+tissue <- gsub(' ', '_', tissue)
+tissue <- gsub('(', '_', tissue, fixed=TRUE)
+tissue <- gsub(')', '_', tissue, fixed=TRUE)
+cat("Mapping tissue", tissue.with.spaces, "to", tissue, "\n")
 
 suppressMessages(library(GenomicRanges))
 suppressMessages(library(rtracklayer))
@@ -51,6 +56,7 @@ gtex <- import.gff(gene.model.file)
 # ENSEMBL IDs have underscores after them in GENCODE but not in GTEx
 gtex$gene_id2 <- sapply(strsplit(gtex$gene_id,'_'),head,1)
 
+
 cat('Annotating tissue median TPM expression levels:', tissue.median.tpm.file, '\n')
 gtex.tpm <- fread(tissue.median.tpm.file, skip=2)
 setkey(gtex.tpm, Name)
@@ -60,6 +66,7 @@ colnames(gtex.tpm) <- gsub('(', '_', colnames(gtex.tpm), fixed=TRUE)
 colnames(gtex.tpm) <- gsub(')', '_', colnames(gtex.tpm), fixed=TRUE)
 gtex.tpm <- gtex.tpm[gtex$gene_id2]
 gtex$mean.expr <- rowMeans(gtex.tpm[,-(1:2)])
+
 
 cat(paste0('Using tissue=', tissue, ' to compute max expression signal along genome\n'))
 e <- gtex.tpm[[tissue]]
@@ -83,6 +90,7 @@ cat(paste0('Mapping GTEx to non-overlapping ', tile.size, ' bp bins and taking m
 ols <- findOverlaps(bins, gtex)
 system.time(maxexpr <- sapply(split(e[to(ols)], from(ols)), max))
 emap <- data.frame(from=as.integer(names(maxexpr)), to=maxexpr)
+
 
 # Make a fresh tiling GRanges with no metadata and attach the expression values for each tile.
 new.bins <- GRanges(seqnames=seqnames(bins), ranges=ranges(bins), seqinfo=seqinfo(bins))

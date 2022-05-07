@@ -88,7 +88,7 @@ fi
 # and 0 otherwise.
 echo "Converting to quantiles (n=$nquantiles)"
 echo "$metatags"
-Rscript -e 'library(data.table); bed <- fread("'$tmpout'"); tmpout <- fread("'$tmpout2'"); score <- tmpout[[5]]; coverage <- tmpout[[3]]/tmpout[[2]]; score[bed[[5]] == 0 | coverage < '$mincov'] <- NA; q <- findInterval(score, quantile(score, na.rm=T, probs=1:'$nquantiles'/'$nquantiles'), rightmost.closed=TRUE)+1; writeLines(text="'$metatags'", con="'$tmpout3'"); cat("Writing qbed..\n"); bed[[4]] <- q; bed[[5]] <- score; bed[[6]] <- NULL; write.table(bed, sep="\\t", file="'$tmpout3'", append=TRUE, col.names=FALSE, row.names=FALSE, quote=FALSE)'
+Rscript -e 'library(data.table); bed <- fread("'$tmpout'"); tmpout <- fread("'$tmpout2'"); score <- tmpout[[5]]; coverage <- tmpout[[3]]/tmpout[[2]]; score[bed[[5]] == 0 | coverage < '$mincov'] <- NA; q <- findInterval(score, quantile(score, na.rm=T, probs=1:'$nquantiles'/'$nquantiles'), rightmost.closed=TRUE)+1; writeLines(text="'"$metatags"'", con="'$tmpout3'"); cat("Writing qbed..\n"); bed[[4]] <- q; bed[[5]] <- score; bed[[6]] <- NULL; write.table(bed, sep="\\t", file="'$tmpout3'", append=TRUE, col.names=FALSE, row.names=FALSE, quote=FALSE)'
 
 # tilesbed has 5 columns, tmpout2 has 2
 echo "Sorting qbed.."
