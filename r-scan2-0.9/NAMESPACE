@@ -1,0 +1,2 @@
+#useDynLib(scan2)
+exportPattern(".")
