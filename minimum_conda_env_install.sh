@@ -10,7 +10,7 @@ conda create -n scan2_pta_paper_scripts -c conda-forge -c bioconda mamba python=
 conda activate scan2_pta_paper_scripts
 
 
-mamba install -c conda-forge -c bioconda r-base r-devtools r-pracma r-r.utils r-argparse r-lme4 r-lmertest r-data.table r-reticulate r-plyr bioconductor-bsgenome.hsapiens.1000genomes.hs37d5 bx-python bioconductor-bsgenome.hsapiens.ucsc.hg19 ucsc-bigwigaverageoverbed gatk ucsc-bigbedtobed
+mamba install -c conda-forge -c bioconda r-base r-devtools r-pracma r-r.utils r-argparse r-lme4 r-lmertest r-data.table r-reticulate r-plyr bioconductor-bsgenome.hsapiens.1000genomes.hs37d5 bx-python bioconductor-bsgenome.hsapiens.ucsc.hg19 ucsc-bigwigaverageoverbed gatk ucsc-bigbedtobed bedtools
 
 
 echo "You must now following the SigProfilerMatrixGenerator installation"
