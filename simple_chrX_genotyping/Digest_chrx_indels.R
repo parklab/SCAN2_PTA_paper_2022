@@ -1,4 +1,4 @@
-load("/n/data1/hms/dbmi/park/jluquette/pta/integrated_calls/metadata.rda")
+load("../metadata.rda")
 
 par1=2699520
 par2=154931044
@@ -15,8 +15,7 @@ print(addmargins(table(meta$donor, meta$amp)))
 
 cat("Finding germline indels\n")
 indels <- do.call(rbind, lapply(donors, function(donor) {
-        d <- paste0('/n/data1/hms/dbmi/park/jluquette/pta/',
-                    donor, '/scansnv_justX/indel/mmq60.tab')
+        d <- paste0('sIndels/', donor, '.tab')
         cat('reading', d, '\n')
         g <- read.table(d, header=T, stringsAsFactors=F, check.names=F)
 

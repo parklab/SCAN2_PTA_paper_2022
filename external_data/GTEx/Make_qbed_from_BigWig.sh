@@ -92,4 +92,4 @@ Rscript -e 'library(data.table); bed <- fread("'$tmpout'"); tmpout <- fread("'$t
 
 # tilesbed has 5 columns, tmpout2 has 2
 echo "Sorting qbed.."
-bedtools sort -header -g chr_order.txt -i $tmpout3 > $outqbed
+bedtools sort -header -g ../GTEx/chr_order.txt -i $tmpout3 > $outqbed

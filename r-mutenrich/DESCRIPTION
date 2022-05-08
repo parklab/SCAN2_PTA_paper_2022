@@ -1,0 +1,9 @@
+Package: mutenrich
+Version: 1.0
+Date: 2021-06-29
+Title: Mutation enrichment analysis
+Description: Functions to find, summarize and plot genomic regions with enrichments or depletions of mutations.
+Author: Lovelace J. Luquette <luquette@g.harvard.edu>
+Depends: data.table, nnls
+Imports: methods, pracma, GenomicRanges, BSgenome, harmonicmeanp, GenomeInfoDb, IRanges
+Maintainer: Lovelace J. Luquette <luquette@g.harvard.edu>
