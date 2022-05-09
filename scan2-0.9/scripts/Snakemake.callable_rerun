@@ -1,0 +1,66 @@
+#config = { "chr_prefix": "chr",
+    #"chrs": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 ],
+    #"bulk_sample": "4976-190613-cer",
+    #"samples": [
+        #"UMB4976_E1",
+        #"UMB4976_E2",
+        #"UMB4976_E3"
+    #]
+#}
+
+rule all:
+    input:
+        expand("callable_regions10/{sample}/callable_regions10.bed",
+            sample=config['sc_samples'])
+    
+
+rule callable_region_gather:
+    input:
+        beds=lambda wildcards:
+            expand("callable_regions10/{{sample}}/callable_regions10.bulk_intersect.{chr_prefix}{{chr}}.bed".format(chr_prefix
+=config['chr_prefix']),
+            sample=wildcards.sample, chr=config['chrs']),
+    output:
+        bed="callable_regions10/{sample}/callable_regions10.bed"
+    resources:
+        #mem=4000
+        mem=1000
+    shell:
+        "cat {input.beds} > {output.bed}"
+
+
+
+rule callable_region_bulk_intersect:
+    input:
+        scbed="callable_regions10/{{sample}}/callable_regions10.{chr_prefix}{{chr}}.bed".format(chr_prefix=config['chr_prefix']),
+        bulkbed="callable_regions10/{bulk_sample}/callable_regions10.{chr_prefix}{{chr}}.bed".format(bulk_sample=config['bulk_sample'], chr_prefix=config['chr_prefix'])
+    output:
+        bed="callable_regions10/{{sample}}/callable_regions10.bulk_intersect.{chr_prefix}{{chr}}.bed".format(chr_prefix=config['chr_prefix'])
+    resources:
+        #mem=4000
+        mem=1000
+    shell:
+        "bedtools intersect -a {input.scbed} -b {input.bulkbed} > {output.bed}"
+
+
+
+rule callable_region_scatter:
+    input:
+        txt="callable_regions/{{sample}}/callable_regions.{chr_prefix}{{chr}}.txt".format(chr_prefix=config['chr_prefix']),
+    output:
+        bed="callable_regions10/{{sample}}/callable_regions10.{chr_prefix}{{chr}}.bed".format(chr_prefix=config['chr_prefix'])
+    params:
+        chrom='{chr}',
+        #min_dp=lambda wildcards: config['min_bulk_dp'] if wildcards.sample == config['bulk_sample'] else config['min_sc_dp']
+        min_dp=10
+    resources:
+        #mem=4500
+        mem=1500
+    shell:
+        " tail -n +2 {input.txt} "
+        " | awk 'BEGIN {{ OFS=\"\t\"; }} {{"
+        "        if ($2 >= {params.min_dp}) {{"
+        "         split($1, chrpos, \":\");"
+        "         print chrpos[1], chrpos[2]-1, chrpos[2], \"+\";"
+        "     }} }}'"
+        " | bedtools merge > {output.bed}"
