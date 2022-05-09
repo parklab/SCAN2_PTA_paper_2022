@@ -8,23 +8,23 @@ setkey(meta, EID)
 # Add 1e-4 to p-value since 0 out of 10,000 permutations is better
 # interpreted as p < 1e-4 rather than p=0.
 snv.distal <- sapply(meta$EID, function(eid) {
-    load(sprintf('sSNVs_vs_%s_H3K27ac_peaks.SUMMARY.rda', eid))
+    load(sprintf('Enrichment_results/sSNVs_vs_%s_H3K27ac_peaks.SUMMARY.rda', eid))
     ret <- unlist(es[[1]]['distal',c('enr', 'pval')])
     c(ret[1], -log10(ret[2] + 1e-4))
 })
 snv.proximal <- sapply(meta$EID, function(eid) {
-    load(sprintf('sSNVs_vs_%s_H3K27ac_peaks.SUMMARY.rda', eid))
+    load(sprintf('Enrichment_results/sSNVs_vs_%s_H3K27ac_peaks.SUMMARY.rda', eid))
     ret <- unlist(es[[1]]['TSS_proximal',c('enr', 'pval')])
     c(ret[1], -log10(ret[2] + 1e-4))
 })
 
 indel.distal <- sapply(meta$EID, function(eid) {
-    load(sprintf('sIndels_vs_%s_H3K27ac_peaks.SUMMARY.rda', eid))
+    load(sprintf('Enrichment_results/sIndels_vs_%s_H3K27ac_peaks.SUMMARY.rda', eid))
     ret <- unlist(es[[1]]['distal',c('enr', 'pval')])
     c(ret[1], -log10(ret[2] + 1e-4))
 })
 indel.proximal <- sapply(meta$EID, function(eid) {
-    load(sprintf('sIndels_vs_%s_H3K27ac_peaks.SUMMARY.rda', eid))
+    load(sprintf('Enrichment_results/sIndels_vs_%s_H3K27ac_peaks.SUMMARY.rda', eid))
     ret <- unlist(es[[1]]['TSS_proximal',c('enr', 'pval')])
     c(ret[1], -log10(ret[2] + 1e-4))
 })

@@ -12,7 +12,7 @@ snv.states <- lapply(states, function(s) {
     # Add 1e-4 to p-value since 0 out of 10,000 permutations is better
     # interpreted as p < 1e-4 rather than p=0.
     snv <- sapply(meta$EID, function(eid) {
-        load(sprintf('sSNVs_vs_%s_ChromHMM15.SUMMARY.rda', eid))
+        load(sprintf('Enrichment_results/sSNVs_vs_%s_ChromHMM15.SUMMARY.rda', eid))
         ret <- unlist(es[[1]][s,c('enr', 'pval')])
         c(ret[1], -log10(ret[2] + 1e-4))
     })
@@ -20,7 +20,7 @@ snv.states <- lapply(states, function(s) {
 
 indel.states <- lapply(states, function(s) {
     indel <- sapply(meta$EID, function(eid) {
-        load(sprintf('sIndels_vs_%s_ChromHMM15.SUMMARY.rda', eid))
+        load(sprintf('Enrichment_results/sIndels_vs_%s_ChromHMM15.SUMMARY.rda', eid))
         ret <- unlist(es[[1]][s,c('enr', 'pval')])
         c(ret[1], -log10(ret[2] + 1e-4))
     })

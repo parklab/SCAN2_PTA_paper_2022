@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-load('sSNVs_vs_GTEx_all_tissues.SUMMARY.rda',verb=T)
+load('Enrichment_results/sSNVs_vs_GTEx_all_tissues.SUMMARY.rda',verb=T)
 # Reorder enrichment objects by quantiles 1..10
 snvs <- lapply(es, function(e) {
     e <- e[rownames(e) %in% 1:10,]
@@ -28,7 +28,7 @@ dev.off()
 
 
 
-load('sIndels_vs_GTEx_all_tissues.SUMMARY.rda',verb=T)
+load('Enrichment_results/sIndels_vs_GTEx_all_tissues.SUMMARY.rda',verb=T)
 # Reorder enrichment objects by quantiles 1..10
 indels <- lapply(es, function(e) {
     e <- e[rownames(e) %in% 1:10,]

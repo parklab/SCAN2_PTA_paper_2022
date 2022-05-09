@@ -1,13 +1,13 @@
 #!/usr/bin/env Rscript
 
-load('sSNVs_vs_Conservation.SUMMARY.rda',verb=T)
+load('Enrichment_results/sSNVs_vs_Conservation.SUMMARY.rda',verb=T)
 # Reorder enrichment objects by quantiles 1..10
 snvs <- lapply(es, function(e) {
     e <- e[rownames(e) %in% 1:10,]
     cbind(sort(as.integer(rownames(e))), e[order(as.integer(rownames(e))),]$enr)
 })
 
-load('sIndels_vs_Conservation.SUMMARY.rda',verb=T)
+load('Enrichment_results/sIndels_vs_Conservation.SUMMARY.rda',verb=T)
 # Reorder enrichment objects by quantiles 1..10
 indels <- lapply(es, function(e) {
     e <- e[rownames(e) %in% 1:10,]

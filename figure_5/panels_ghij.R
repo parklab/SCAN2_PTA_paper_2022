@@ -3,7 +3,7 @@
 enhprom <- lapply(c('enhancers', 'promoters'), function(regtype) {
     setNames(lapply(c('sSNVs', 'sIndels'), function(muttype) {
         sapply(c('astrocyte', 'neuron', 'microglia', 'oligo'), function(celltype) {
-            load(sprintf("%s_vs_%s_%s.SUMMARY.rda", muttype, celltype, regtype))
+            load(sprintf("Enrichment_results/%s_vs_%s_%s.SUMMARY.rda", muttype, celltype, regtype))
             es[[1]]['inside',c('enr', 'enr.boot.0.95.lb', 'enr.boot.0.95.ub')]
         })
     }), c('sSNVs', 'sIndels'))
@@ -12,14 +12,14 @@ enhprom <- lapply(c('enhancers', 'promoters'), function(regtype) {
 
 atac <- setNames(lapply(c('sSNVs', 'sIndels'), function(muttype) {
     sapply(c('GABA', 'GLU', 'OLIG', 'MGAS'), function(celltype) {
-        load(sprintf("%s_vs_%s_ATACseq.SUMMARY.rda", muttype, celltype))
+        load(sprintf("Enrichment_results/%s_vs_%s_ATACseq.SUMMARY.rda", muttype, celltype))
         es[[1]]['inside',c('enr', 'enr.boot.0.95.lb', 'enr.boot.0.95.ub')]
     })
 }), c('sSNVs', 'sIndels'))
 
 dnarepair <- setNames(lapply(c('sSNVs', 'sIndels'), function(muttype) {
     sapply(c('SARseq', 'Repairseq'), function(assaytype) {
-        load(sprintf("%s_vs_%s.SUMMARY.rda", muttype, assaytype))
+        load(sprintf("Enrichment_results/%s_vs_%s.SUMMARY.rda", muttype, assaytype))
         es[[1]]['inside',c('enr', 'enr.boot.0.95.lb', 'enr.boot.0.95.ub')]
     })
 }), c('sSNVs', 'sIndels'))

@@ -9,8 +9,8 @@ for muttype in sSNVs sIndels; do
         for rtype in enhancers promoters; do
             ./bedenrich.R 10000 SCAN2_PTA_${muttype}_filtered.rda \
                 ./${perm_prefix}perms_10000_mutsigaware_grl.minimized.rda \
-                ${muttype}_vs_${celltype}_${rtype}.FULL.rda \
-                ${muttype}_vs_${celltype}_${rtype}.SUMMARY.rda \
+                Enrichment_results/${muttype}_vs_${celltype}_${rtype}.FULL.rda \
+                Enrichment_results/${muttype}_vs_${celltype}_${rtype}.SUMMARY.rda \
                 ../external_data/Enhancers_and_promoters/s5_${celltype}_${rtype}.uniq.txt
         done
     done
