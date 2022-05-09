@@ -19,16 +19,16 @@ muttab[muttab$donor=='5219',]$color <- "#B1AF27"
 # independence assumption between measurements.
 plm <- lmer(burden ~ age + (1 | donor),
     data=muttab[amp=='PTA',])
+
+# _MDA_ neurons from subjects 4638, 4643 and 5219 were not analyzed
+# for indels. Do not include them in the trend line since they will
+# have 0 calls.
 mlm <- lmer(burden ~ age + (1 | donor),
-    data=muttab[amp=='MDA',])
-mlm2 <- lmer(burden ~ age + (1 | donor),
-    data=muttab[amp=='MDA' & donor != 5219,])
+    data=muttab[amp=='MDA' & !(donor %in% c(4638, 4643, 5219)),])
 cat('------------------ PTA --------------------\n')
 print(summary(plm))
 cat('------------------ MDA --------------------\n')
 print(summary(mlm))
-cat('------------------ MDA (no 5219) ----------\n')
-print(summary(mlm2))
 
 
 
