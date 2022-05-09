@@ -32,19 +32,23 @@ indel.proximal <- sapply(meta$EID, function(eid) {
 
 pf <- function(x, xticks, no.x=FALSE, no.y=FALSE, ...) {
     anatomy <- meta[colnames(x)]$ANATOMY
+    type <- meta[colnames(x)]$TYPE
+    pfc <- meta[STD_NAME=='Brain_Dorsolateral_Prefrontal_Cortex']$EID
 
     ylab <- if (no.y) '' else 'Significance: -log10(p-value)'
     xlab <- if (no.x) '' else 'Enrichment (or depletion) ratio (obs/exp)'
     plot(t(x),
-        col=ifelse(anatomy=='BRAIN', 'red', ifelse(x[2,] > 1, 'black', 'grey')),
+        col=ifelse(anatomy=='BRAIN' & type=='PrimaryTissue',
+                   'red', ifelse(x[2,] > 1, 'black', 'grey')),
         bty='n', xaxt='n', yaxt='n', pch=20,
         xlim=range(xticks), ylim=c(0,4), cex=2,
         ylab=ylab, xlab=xlab, ...)
     # replot brain points on top of others
-    points(t(x[,anatomy=='BRAIN']), col='red',
+    points(t(x[,anatomy=='BRAIN' & type=='PrimaryTissue']), col='red',
         pch=20, cex=2)
     abline(h=1, lty='dotted', col='black', lwd=0.55)
     abline(v=1, lty='dotted', col='black', lwd=0.55)
+    segments(1, 2, x[1, pfc], x[2, pfc], col='red')
     if (!no.y) axis(side=2, at=0:4, lwd=0.35, lwd.ticks=0.35)
     if (!no.x) axis(side=1, at=xticks, lwd=0.35, lwd.ticks=0.35)
 }

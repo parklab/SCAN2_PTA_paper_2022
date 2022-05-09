@@ -7,7 +7,7 @@ library(data.table)
 step1.load=F                         # just load data from disk. takes a while.
 step2.rescore=F                      # rescore sites to FDR=1% and do SCAN2 mutation signature rescue
 step3.make_initial_tables=F          # use info from (1) and (2) to make passAB determinations
-step4.exact_recurrence_filter=F      # filter out SNVs called in more than one donor.
+step4.exact_recurrence_filter=T      # filter out SNVs called in more than one donor.
 step5.clustered_mut_filter=F         # remove SNVs within 50bp in the same sample
                                      # these are mostly dinuc subs.
 step6.finalize=F    
@@ -138,12 +138,19 @@ if (step4.exact_recurrence_filter) {
     print(addmargins(table(recs,donors)))
     nmut$rec.filter <- donors[nmut$id] > 1
 
+    # This is the correct" way to remove mutations called in 2
+    # or more donors. However, the above filter (which does not
+    # require the calls to be passed, only to be in the list of
+    # FDR < 50% candidate sites) finds an additional 57 sSNVs that
+    # recur exactly in another brain with fairly high read support.
+    # I think it's best to regard these as likely FPs and remove them.
     cat('Recurrence x donor table (any passA,B,M)\n')
-    z <- split(nmut$donor[nmut$passA | nmut$passB],
-               nmut$id[nmut$passA | nmut$passB])
+    z <- split(nmut$donor[nmut$passA | nmut$passB | nmut$passM],
+               nmut$id[nmut$passA | nmut$passB | nmut$passM])
     donors <- sapply(z, function(v) length(unique(v)))
     recs <- sapply(z, length)
     print(addmargins(table(recs,donors)))
+    #nmut$rec.filter <- donors[nmut$id] > 1
 }
 
 

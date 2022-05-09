@@ -2,14 +2,14 @@
 library(scan2)
 
 # Set all of the below to T to generate the table and save it
-step1.load=F
-step2.rescore=F                     # make 1% FDR calls and rescue
-step3.master_table=F                # join all raw calls into a single dataframe
-step4.exact_recurrence_filter=F     # SHOULDN'T have an effect on indels because of
-                                    # the cross-sample filter.
-step5.clustered_mut_filter=F        # removes a small number of indels
+step1.load=T
+step2.rescore=T                  # make 1% FDR calls and rescue
+step3.master_table=T             # join all raw calls into a single dataframe
+step4.exact_recurrence_filter=T  # SHOULDN'T have an effect on indels because of
+                                 # the cross-sample filter.
+step5.clustered_mut_filter=F     # removes a small number of indels
 step6.finalize=F
-step7.save=T
+step7.save=F
 
 if (step1.load) {
     load('../metadata.rda')
